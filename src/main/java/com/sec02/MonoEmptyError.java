@@ -9,7 +9,8 @@ public class MonoEmptyError {
 
         getUserName(2).subscribe(Util.subscriber());
 
-        getUserName(3).subscribe(Util.subscriber());
+        getUserName(3).subscribe(s -> System.out.println(s),
+                err -> System.out.println("Error: " + err.getMessage()));
     }
 
     private static Mono<String> getUserName(int userId) {

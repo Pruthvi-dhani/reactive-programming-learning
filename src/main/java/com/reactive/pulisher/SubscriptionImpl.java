@@ -1,14 +1,14 @@
 package com.reactive.pulisher;
 
 import com.github.javafaker.Faker;
-import com.reactive.subscriber.SubscriberImpl;
+import com.common.DefaultSubscriber;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SubscriptionImpl implements Subscription {
-    private static final Logger logger = LoggerFactory.getLogger(SubscriberImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultSubscriber.class);
 
     private boolean isCancelled = false;
 

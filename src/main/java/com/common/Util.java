@@ -11,10 +11,4 @@ public class Util {
     public static <T> Subscriber<T> subscriber(String name) {
         return new DefaultSubscriber<>(name);
     }
-
-    public static void main(String[] args) {
-        var mono = Mono.just(1);
-        mono.subscribe(subscriber("subs1"));
-        mono.subscribe(subscriber("subs2"));
-    }
 }

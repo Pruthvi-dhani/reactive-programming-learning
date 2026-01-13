@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class FileServiceImpl implements FileService {
     private final String folderPath;
@@ -22,13 +26,9 @@ public class FileServiceImpl implements FileService {
     private String readFile(String fileName) throws IOException {
         String resourcePath = folderPath + "/" + fileName;
         logger.info("Trying to read file: {}", resourcePath);
-        try (InputStream in = FileServiceImpl.class.getResourceAsStream(resourcePath)) {
-            if (in == null) {
-                throw new IllegalArgumentException("Resource not found: " + resourcePath);
-            }
-
-            try (BufferedReader reader =
-                         new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+        Path path = Paths.get(resourcePath);
+        try (InputStream in = Files.newInputStream(path)) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
                 StringBuilder sb = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -36,10 +36,18 @@ public class FileServiceImpl implements FileService {
                 }
                 return sb.toString();
             }
-        } catch (IOException e) {
+        } catch (NoSuchFileException e) {
+            logger.info("File doesn't exist at path: {}", resourcePath);
+            throw new IllegalArgumentException("Resource not found: " + resourcePath);
+        }
+        catch (IOException e) {
             logger.info("Received error trying to read file: {}, Error: {}", resourcePath, e.getMessage());
             throw e;
         }
+    }
+
+    private void writeToFile(String content, String filename) {
+
     }
 
     @Override

@@ -54,6 +54,14 @@ public class FileServiceImpl implements FileService {
         return null;
     }
 
+    private Void deleteFile(String fileName) throws IOException {
+        String resourcePath = folderPath + "/" + fileName;
+        logger.info("Trying to delete file: {}", resourcePath);
+        Path path = Paths.get(resourcePath);
+        Files.delete(path);
+        return null;
+    }
+
     @Override
     public Mono<String> read(String fileName) {
         logger.info("creating the publisher for reading the file...");
@@ -68,6 +76,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public Mono<Void> delete(String fileName) {
-        return null;
+        logger.info("creating the publisher for deleting the file...");
+        return Mono.fromCallable(() -> deleteFile(fileName));
     }
 }

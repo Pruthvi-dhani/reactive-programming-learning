@@ -10,5 +10,7 @@ public class TestFileService {
                 err -> System.out.println("Got this error: " + err.getMessage()));
         // write to a new file
         fileService.write("example1.txt", "Word 1\nWord 2").subscribe();
+        // delete the above file
+        fileService.delete("example1.txt").subscribe();
     }
 }

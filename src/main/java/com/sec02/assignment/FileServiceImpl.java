@@ -46,8 +46,12 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    private void writeToFile(String content, String filename) {
-
+    private Void writeToFile(String content, String fileName) throws IOException {
+        String resourcePath = folderPath + "/" + fileName;
+        logger.info("Trying to write to file: {}", resourcePath);
+        Path path = Paths.get(resourcePath);
+        Files.writeString(path, content, StandardCharsets.UTF_8);
+        return null;
     }
 
     @Override
@@ -58,7 +62,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public Mono<Void> write(String fileName, String content) {
-        return null;
+        logger.info("creating the publisher for writing the file...");
+        return Mono.fromCallable(() -> writeToFile(content, fileName));
     }
 
     @Override

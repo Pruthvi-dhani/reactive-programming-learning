@@ -1,10 +1,14 @@
 package com.sec03;
 
+import com.github.javafaker.Faker;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
 
 public class FluxJustDemo {
+
+    private static Faker faker = Faker.instance();
+
     public static void main(String[] args) {
         Flux.just(1, 2, 3).subscribe((item) -> System.out.println(item));
         var flux1 = Flux.just(1, 2, 3, 4, 5, 6);
@@ -35,5 +39,10 @@ public class FluxJustDemo {
                 err -> System.out.println("Nex Sub 1 received error: " + err.getMessage()));
         nexFlux.subscribe(i -> System.out.println("Nex Sub 2 received from stream: " + i),
                 err -> System.out.println("Nex Sub 2 received error: " + err.getMessage()));
+
+        // create the flux using the range method
+        Flux.range(2, 5).subscribe(i -> System.out.println("Received: " + i));
+        // generates 10 random first names using the faker library
+        Flux.range(1, 10).subscribe(i -> System.out.println(faker.name().firstName()));
     }
 }

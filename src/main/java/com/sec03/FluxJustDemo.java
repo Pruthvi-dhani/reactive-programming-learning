@@ -44,5 +44,8 @@ public class FluxJustDemo {
         Flux.range(2, 5).subscribe(i -> System.out.println("Received: " + i));
         // generates 10 random first names using the faker library
         Flux.range(1, 10).subscribe(i -> System.out.println(faker.name().firstName()));
+
+        // demo the log operator on the flux operator
+        Flux.range(1, 5).log("loggerName").subscribe(i -> System.out.println("Log demo: " + i));
     }
 }
